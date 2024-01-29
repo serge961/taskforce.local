@@ -1,0 +1,15 @@
+{
+    "name": "serge/taskforce.local",
+    "autoload": {
+        "psr-4": {
+            "Taskforce\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "serge961",
+            "email": "serge96@mail.ru"
+        }
+    ],
+    "require": {}
+}
