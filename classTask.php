@@ -8,11 +8,11 @@ class Task
     const STATUS_COMPLETE = 'completed';
     const STATUS_FAIL = 'failed';
 
-    const ACTION_RESPONSE = 'act_response';
-    const ACTION_CANCEL = 'act_cancel';
-    const ACTION_DENY = 'act_deny';
-    const ACTION_COMPLETE = 'act_complete';
-    const ACTION_RUN = 'act_run';
+    const ACTION_RESPONSE = 'action_response';
+    const ACTION_CANCEL = 'action_cancel';
+    const ACTION_DENY = 'action_deny';
+    const ACTION_COMPLETE = 'action_complete';
+    const ACTION_RUN = 'action_run';
 
     const ROLE_PERFORMER = 'performer';
     const ROLE_CLIENT = 'customer';
@@ -22,7 +22,11 @@ class Task
 
     private $status;
 
-    public function getStatusMap()
+    /**
+     * Возвращает карту статусов с названиями
+     * @return  array
+     */
+    public function getStatusMap(): array
     {
         return $mapStatus = [
             self::STATUS_NEW => 'Новая',
@@ -33,7 +37,11 @@ class Task
         ];
     }
 
-    public function getActionMap()
+    /**
+     * Возвращает карту действий с названиями
+     * @return array
+     */
+    public function getActionMap(): array
     {
         return $mapAction = [
             self::ACTION_CANCEL => 'Отменить',
@@ -44,15 +52,26 @@ class Task
         ];
     }
 
-    public function __construct(string $status, int $clientId, ?int $performerId)
+    /** 
+    * Создает объект класса
+    * @param int $clientId идентификатор клиента
+    * @param int $performerId идентификатор исполнителя
+    *
+    */
+
+    public function __construct(int $clientId, ?int $performerId)
     {
-        $this->setStatus($status);
+      //  $this->setStatus($status);
 
         $this->clientId = $clientId;
         $this->performerId = $performerId;
     }
 
-    private function setStatus(string $status)
+    /**
+     * Устанавливает статус задачи
+     * @param string $status
+     */
+    private function setStatus(string $status): void
     {
         $status_set = [
             self::STATUS_NEW,
@@ -69,7 +88,13 @@ class Task
 
     }
 
-    private function  getStatus($action)
+    /**
+     * Выводит следующий статус для текущего действия
+     * @param string $action действие
+     * 
+     * @return string возвращает статус
+     */
+    private function getNextStatus(string $action): ?string
     {
         $map = [
         self::ACTION_CANCEL => self::STATUS_CANCEL,
@@ -82,7 +107,14 @@ class Task
         return $map[$action] ?? null;
     }
 
-    private function getAction($status)
+
+    /**
+     * Выводит список доступных действий для указанного статуса
+     * @param string $status передаваемый статус
+     * 
+     * @return array доступные действия для указанного статуса
+     */
+    private function getAction(string $status): array
     {
         $map = [
             self::STATUS_NEW => [self::ACTION_RESPONSE, self::ACTION_CANCEL],
@@ -92,7 +124,13 @@ class Task
         return $map[$status] ?? [];
     }
 
-
-
-
 }
+
+
+//$task = new Task(1, 2);
+//$task->getNextStatus('action_cancel');
+
+//assert($task->getNextStatus('action_cancel') == Task::ACTION_CANCEL,'action_cancel');
+
+
+
